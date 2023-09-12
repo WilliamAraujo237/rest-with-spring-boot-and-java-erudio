@@ -1,4 +1,4 @@
-package br.com.erudio;
+package br.com.erudio.Entity;
 
 public class Greeting_saldacao {
 

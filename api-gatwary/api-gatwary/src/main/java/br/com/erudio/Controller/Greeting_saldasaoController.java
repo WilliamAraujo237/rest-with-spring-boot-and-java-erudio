@@ -1,19 +1,34 @@
 package br.com.erudio.Controller;
+import org.springframework.web.bind.annotation.*;
 
-import br.com.erudio.Greeting_saldacao;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 public class Greeting_saldasaoController {
-    private static final String template = "Hello,%s!";
-    private final AtomicLong counter = new AtomicLong();
+    @RequestMapping(value="/sum/{numberOne}/{numberTwo}", method=RequestMethod.GET)
+    public Double sum(@PathVariable("numberOne") String numberOne,
+                      @PathVariable("numberTwo") String numberTwo) throws Exception {
+        if (!isNumeric(numberOne) || !isNumeric(numberTwo)) {
+            throw new Exception();
+        }
+        return covertToDouble(numberOne) + covertToDouble(numberTwo);
+    }
 
-    @RequestMapping("/greeting")
-    public Greeting_saldacao greetingSaldacao(@RequestParam(value = "name",defaultValue = "World") String name){
-        return new Greeting_saldacao(counter.incrementAndGet(),String.format(template,name));
+    public static Double covertToDouble(String strNumber) {
+        if (strNumber == null){
+            return 0D;
+        }
+        String number = strNumber.replaceAll(",",".");
+        if (isNumeric(number)){
+            return Double.parseDouble(number);
+        }
+        return 0D;
+    }
+
+    public static boolean isNumeric(String strNumber) {
+        if (strNumber == null){
+            return false;
+        }
+        String number = strNumber.replaceAll(",",".");
+        return number.matches("[-+]?[0-9]*\\.?[0-9]+");
     }
 }
