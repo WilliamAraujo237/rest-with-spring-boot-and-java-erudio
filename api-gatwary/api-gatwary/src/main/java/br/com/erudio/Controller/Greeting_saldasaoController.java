@@ -5,20 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class Greeting_saldasaoController {
-
-    //Break Point para requisições do tipo GET para o envio de valores para serem somados
-    @RequestMapping(value="/sum/{numberOne}/{numberTwo}", method=RequestMethod.GET)
-    public Double sum(@PathVariable("numberOne") String numberOne,
-                      @PathVariable("numberTwo") String numberTwo) throws Exception {
-
-        //Tratamento de Exception caso o usuário informe uma letra no local de um numero
-        if (!isNumeric(numberOne) || !isNumeric(numberTwo)) {
-            throw new UnsuportedMathOperationException("Please informe a Numeric Value !");
-        }
-        //Conversao do valor informado para um Double e logo apos, a soma dos mesmos
-        return covertToDouble(numberOne) + covertToDouble(numberTwo);
-    }
-
+    
     //Conversao do valor informado para um Double
     public static Double covertToDouble(String strNumber) {
         if (strNumber == null){
@@ -40,6 +27,18 @@ public class Greeting_saldasaoController {
         return number.matches("[-+]?[0-9]*\\.?[0-9]+");
     }
 
+    //Break Point para requisições do tipo GET para o envio de valores para serem somados
+    @RequestMapping(value="/sum/{numberOne}/{numberTwo}", method=RequestMethod.GET)
+    public Double sum(@PathVariable("numberOne") String numberOne,
+                      @PathVariable("numberTwo") String numberTwo) throws Exception {
+
+        //Tratamento de Exception caso o usuário informe uma letra no local de um numero
+        if (!isNumeric(numberOne) || !isNumeric(numberTwo)) {
+            throw new UnsuportedMathOperationException("Please informe a Numeric Value !");
+        }
+        //Conversao do valor informado para um Double e logo apos, a soma dos mesmos
+        return covertToDouble(numberOne) + covertToDouble(numberTwo);
+    }
 
     //Break point para requisicao do tipo GET para o envio de dois valores para serem subtraidos
     @RequestMapping(value = "/sub/{numberOne}/{numberTWO}", method = RequestMethod.GET)
